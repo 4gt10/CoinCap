@@ -1,0 +1,36 @@
+/* 
+  Localizable.strings
+  CoinCap
+
+  Created by Артур Чернов on 22.03.2022.
+  
+*/
+
+// MARK: - Common
+"filename" = "Localizable";
+"common.alert.action.ok" = "OK";
+
+// MARK: - Error messages
+"error.incorrectData" = "Incorrect data. Please, try to reload the page later";
+
+// MARK: - Assets
+"assets.title" = "Assets";
+"assets.searchBar.placeholder" = "Search";
+
+// MARK: - Asset details
+"assetDetails.item.marketCap.title" = "Market Cap";
+"assetDetails.item.supply.title" = "Supply";
+"assetDetails.item.volume.title" = "Volume (24h)";
+
+// MARK: - Watchlist
+"watchlist.title" = "Watchlist";
+"watchlist.item.deleteAction.title" = "Delete";
+"watchlist.empty.title" = "No assets yet";
+"watchlist.empty.description" = "Your Watchlist will appear here";
+
+// MARK: - Settings
+"settings.title" = "Settings";
+"settings.icon.title" = "Icon";
+"settings.icon.white.title" = "White";
+"settings.icon.black.title" = "Black";
+"settings.icon.yellow.title" = "Yellow";
