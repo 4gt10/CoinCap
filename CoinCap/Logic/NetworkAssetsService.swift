@@ -9,7 +9,22 @@ import Foundation
 
 final class NetworkAssetsService {
     private let session: URLSession
-    private var tasks = [URLSessionDataTask]()
+    private let tasksSyncQueue = DispatchQueue(label: "com.gmail.forgot10soul.CoinCap.NetworkAssetsService.tasksSyncQueue")
+    private var _tasks = [URLSessionDataTask]()
+    private var tasks: [URLSessionDataTask] {
+        get {
+            var tmpTasks = [URLSessionDataTask]()
+            tasksSyncQueue.sync {
+                tmpTasks = _tasks
+            }
+            return tmpTasks
+        }
+        set {
+            tasksSyncQueue.async(flags: .barrier) { [weak self] in
+                self?._tasks = newValue
+            }
+        }
+    }
     
     // MARK: - Lifecycle
     init() {
@@ -42,7 +57,7 @@ private extension NetworkAssetsService {
         let taskDescription = request.description
         let task = session.dataTask(with: request) { [weak self] data, response, error in
             self?.log(response: response, data: data)
-            
+
             if let taskIndex = self?.tasks.firstIndex(where: { $0.taskDescription == taskDescription }) {
                 self?.tasks.remove(at: taskIndex)
             }
