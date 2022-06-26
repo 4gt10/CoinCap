@@ -15,6 +15,8 @@ class AssetsViewController: UIViewController {
         return refreshControl
     }()
     private let searchController = UISearchController(searchResultsController: nil)
+    private var debounceWorkItem: DispatchWorkItem?
+    
     var dataController: AssetsDataController!
     
     override func viewDidLoad() {
@@ -76,7 +78,12 @@ extension AssetsViewController: UISearchResultsUpdating {
         guard let query = searchController.searchBar.text, !query.isEmpty else {
             return
         }
-        reload(withQuery: query)
+        
+        self.debounceWorkItem?.cancel()
+        self.debounceWorkItem = DispatchWorkItem { [weak self] in
+            self?.reload(withQuery: query)
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300), execute: self.debounceWorkItem!)
     }
 }
 
