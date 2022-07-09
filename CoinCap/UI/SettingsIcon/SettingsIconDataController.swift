@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 final class SettingsIconDataController: NSObject {
-    private let appIconService = AppIconService()
+    private let appIconService = AppIconService.shared
     private var allIcons: [AppIconService.Icon] { appIconService.all }
     private var currentIcon: AppIconService.Icon { appIconService.current }
     private var onSelected: (() -> Void)?

@@ -25,12 +25,5 @@ extension Asset {
     var readableMarketCap: String? { marketCapUsd?.currency }
     var readableSupply: String? { supply?.currency }
     var readableVolume: String? { volumeUsd24Hr?.currency }
-    var logoURL: URL? {
-        guard
-            let symbol = symbol?.lowercased(),
-            let url = URL(string: "https://cryptologos.cc/logos/\(id)-\(symbol)-logo.png") else {
-            return nil
-        }
-        return url
-    }
+    var logoURL: URL? { AssetLogoURLBuilder.build(forId: id, symbol: symbol) }
 }

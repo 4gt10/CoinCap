@@ -64,11 +64,13 @@ final class AssetDetailsDataController: NSObject {
             guard let self = self else {
                 return
             }
-            switch result {
-            case let .success(data):
-                DispatchQueue.main.async { self.onGraphDataLoaded?(data) }
-            case let .failure(error):
-                DispatchQueue.main.async { self.onError?(.init(error)) }
+            DispatchQueue.main.async {
+                switch result {
+                case let .success(data):
+                    self.onGraphDataLoaded?(data)
+                case let .failure(error):
+                    self.onError?(.init(error))
+                }
             }
         }
     }

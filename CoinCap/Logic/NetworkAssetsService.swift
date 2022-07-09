@@ -20,7 +20,7 @@ final class NetworkAssetsService {
             return tmpTasks
         }
         set {
-            tasksSyncQueue.async(flags: .barrier) { [weak self] in
+            tasksSyncQueue.sync(flags: .barrier) { [weak self] in
                 self?._tasks = newValue
             }
         }

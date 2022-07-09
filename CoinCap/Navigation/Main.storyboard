@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rgh-iK-d1U">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -13,17 +13,17 @@
         <!--Settings View Controller-->
         <scene sceneID="EQ1-S1-CQF">
             <objects>
-                <viewController id="gtw-P2-FFc" customClass="SettingsViewController" customModule="CoinCap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsViewController" id="gtw-P2-FFc" customClass="SettingsViewController" customModule="CoinCap" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Vni-kU-crp">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="IhB-2P-tiR">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DetailCell" id="wrg-1r-FZh" customClass="DetailCell" customModule="CoinCap" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="32" width="414" height="42.5"/>
+                                        <rect key="frame" x="0.0" y="49.5" width="414" height="42.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wrg-1r-FZh" id="WXZ-AO-GrW">
                                             <rect key="frame" x="0.0" y="0.0" width="385.5" height="42.5"/>
@@ -73,8 +73,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="ags-G1-Rpo"/>
                     <connections>
-                        <outlet property="tableVIew" destination="IhB-2P-tiR" id="byi-h9-bGA"/>
-                        <segue destination="iD0-jj-RIh" kind="show" identifier="icon" id="5BP-6d-YjL"/>
+                        <outlet property="tableView" destination="IhB-2P-tiR" id="byi-h9-bGA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5ZL-ou-oEK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -84,17 +83,17 @@
         <!--Assets View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController id="Y6W-OH-hqX" customClass="AssetsViewController" customModule="CoinCap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AssetsViewController" id="Y6W-OH-hqX" customClass="AssetsViewController" customModule="CoinCap" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Yu9-Ur-16j">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AssetCell" rowHeight="80" id="qYL-O5-LRz" customClass="AssetCell" customModule="CoinCap" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="32" width="414" height="80"/>
+                                        <rect key="frame" x="0.0" y="49.5" width="414" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qYL-O5-LRz" id="GMt-Ch-g4D">
                                             <rect key="frame" x="0.0" y="0.0" width="385.5" height="80"/>
@@ -179,7 +178,6 @@
                     <navigationItem key="navigationItem" id="XBe-Y8-w9B"/>
                     <connections>
                         <outlet property="tableView" destination="Yu9-Ur-16j" id="LyL-mL-5rx"/>
-                        <segue destination="oBJ-9U-7w9" kind="show" identifier="assetDetails" id="lH0-Xa-u6c"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -189,46 +187,46 @@
         <!--Asset Details View Controller-->
         <scene sceneID="5GZ-Dn-5XA">
             <objects>
-                <viewController id="oBJ-9U-7w9" customClass="AssetDetailsViewController" customModule="CoinCap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AssetDetailsViewController" id="oBJ-9U-7w9" customClass="AssetDetailsViewController" customModule="CoinCap" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="a55-ej-1gx">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="GlU-bC-Oso">
-                                <rect key="frame" x="133" y="140" width="148.5" height="77"/>
+                                <rect key="frame" x="133" y="44" width="148.5" height="77"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="64"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dpa-ca-oWA">
-                                <rect key="frame" x="181" y="225" width="52" height="27"/>
+                                <rect key="frame" x="181" y="129" width="52" height="27"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <color key="textColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="xmX-Jw-61X">
-                                <rect key="frame" x="188.5" y="337.5" width="37" height="37"/>
+                                <rect key="frame" x="188.5" y="241.5" width="37" height="37"/>
                             </activityIndicatorView>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3FO-XF-qWc" customClass="LineChartView" customModule="Charts">
-                                <rect key="frame" x="0.0" y="276" width="414" height="160"/>
+                                <rect key="frame" x="0.0" y="180" width="414" height="160"/>
                                 <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="160" id="O5x-e4-wy8"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="JH1-PO-ppK">
-                                <rect key="frame" x="0.0" y="436" width="414" height="377"/>
+                                <rect key="frame" x="0.0" y="340" width="414" height="522"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="DetailCell" id="G3r-KJ-95h" customClass="DetailCell" customModule="CoinCap" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="49.5" width="414" height="43"/>
+                                        <rect key="frame" x="0.0" y="49.5" width="414" height="42.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="G3r-KJ-95h" id="yYG-wK-hhQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="42.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JyR-Fl-Gnv">
-                                                    <rect key="frame" x="16" y="11" width="42" height="21.5"/>
+                                                    <rect key="frame" x="16" y="11" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -295,13 +293,13 @@
         <!--Watchlist View Controller-->
         <scene sceneID="bbB-xr-xo4">
             <objects>
-                <viewController id="vWN-ew-Ucp" customClass="WatchlistViewController" customModule="CoinCap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WatchlistViewController" id="vWN-ew-Ucp" customClass="WatchlistViewController" customModule="CoinCap" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QAO-As-W2A">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="OVo-PC-7oy">
-                                <rect key="frame" x="185.5" y="455.5" width="43.5" height="42.5"/>
+                                <rect key="frame" x="185.5" y="432" width="43.5" height="42.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cBY-NM-hXP">
                                         <rect key="frame" x="0.0" y="0.0" width="43.5" height="20.5"/>
@@ -324,7 +322,7 @@
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="MKs-oU-Pg3">
-                                <rect key="frame" x="0.0" y="140" width="414" height="673"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AssetCell" rowHeight="80" id="lG7-1M-enK" customClass="AssetCell" customModule="CoinCap" customModuleProvider="target">
@@ -420,123 +418,33 @@
                         <outlet property="emptyTitleLabel" destination="cBY-NM-hXP" id="I6a-0s-EV8"/>
                         <outlet property="emptyView" destination="OVo-PC-7oy" id="21C-kE-ek4"/>
                         <outlet property="tableView" destination="MKs-oU-Pg3" id="R4D-9V-xQc"/>
-                        <segue destination="oBJ-9U-7w9" kind="show" identifier="assetDetails" id="MYO-gO-yGg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qaV-Sv-58n" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1586" y="72"/>
         </scene>
-        <!--Tab Bar Controller-->
-        <scene sceneID="KGi-BH-bgR">
-            <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="rgh-iK-d1U" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="srs-qO-RO8">
-                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="eNl-gt-pfd" kind="relationship" relationship="viewControllers" id="Ajw-PA-Ji8"/>
-                        <segue destination="AOy-ve-czD" kind="relationship" relationship="viewControllers" id="P2D-yQ-VVj"/>
-                        <segue destination="odF-bJ-CWf" kind="relationship" relationship="viewControllers" id="Ytn-eS-AOX"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Wnj-UV-1se" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="121.73913043478262" y="71.651785714285708"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="2Uy-JD-a4t">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="eNl-gt-pfd" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="assets" selectedImage="assets" id="F6R-KG-NU3">
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="string" keyPath="localizedKey" value="assets.title"/>
-                        </userDefinedRuntimeAttributes>
-                    </tabBarItem>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="PwN-Zp-6Ik">
-                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="asQ-ey-azK"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gij-4l-bj5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="863.768115942029" y="-591.29464285714278"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="161-LI-Lo5">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="AOy-ve-czD" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="favorites" selectedImage="favorites" id="Dic-TA-eDV">
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="string" keyPath="localizedKey" value="watchlist.title"/>
-                        </userDefinedRuntimeAttributes>
-                    </tabBarItem>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="nq3-Rx-lSM">
-                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="vWN-ew-Ucp" kind="relationship" relationship="rootViewController" id="NhJ-qu-9p4"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jDg-hs-k13" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="863.768115942029" y="71.651785714285708"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="2ue-Tq-JCU">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="odF-bJ-CWf" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="settings" selectedImage="settings" id="lip-xc-mqP">
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="string" keyPath="localizedKey" value="settings.title"/>
-                        </userDefinedRuntimeAttributes>
-                    </tabBarItem>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="Yay-tl-ARh">
-                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="gtw-P2-FFc" kind="relationship" relationship="rootViewController" id="A9B-w2-Rqh"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kk2-6F-RqA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="863.768115942029" y="730.58035714285711"/>
-        </scene>
         <!--Settings Icon View Controller-->
         <scene sceneID="Ch1-Z0-Pfq">
             <objects>
-                <viewController id="iD0-jj-RIh" customClass="SettingsIconViewController" customModule="CoinCap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsIconViewController" id="iD0-jj-RIh" customClass="SettingsIconViewController" customModule="CoinCap" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="S7T-IK-yFF">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Xeg-yu-7lu">
-                                <rect key="frame" x="0.0" y="140" width="414" height="673"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="DetailCell" id="AKj-gk-JHM" customClass="DetailCell" customModule="CoinCap" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="32" width="414" height="43"/>
+                                        <rect key="frame" x="0.0" y="49.5" width="414" height="42.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="AKj-gk-JHM" id="dEI-sz-80c">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="42.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ae-YA-vBY">
-                                                    <rect key="frame" x="16" y="11" width="41.5" height="21.5"/>
+                                                    <rect key="frame" x="16" y="11" width="41.5" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -587,13 +495,7 @@
             <point key="canvasLocation" x="2300" y="731"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="MYO-gO-yGg"/>
-    </inferredMetricsTieBreakers>
     <resources>
-        <image name="assets" width="19" height="19"/>
-        <image name="favorites" width="18" height="17"/>
-        <image name="settings" width="19" height="19"/>
         <namedColor name="secondaryTextColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.60000002384185791" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

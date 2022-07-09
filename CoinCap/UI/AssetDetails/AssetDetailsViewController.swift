@@ -8,7 +8,7 @@
 import UIKit
 import Charts
 
-final class AssetDetailsViewController: UIViewController {
+final class AssetDetailsViewController: UIViewController, Storyboarded {
     @IBOutlet private weak var priceLabel: UILabel!
     @IBOutlet private weak var priceChangeLabel: UILabel!
     @IBOutlet private weak var chartView: LineChartView!
@@ -29,6 +29,8 @@ final class AssetDetailsViewController: UIViewController {
             }
         }
     }
+    
+    weak var coordinator: AssetsCoordinator?
     
     override func viewDidLoad() {
         super.viewDidLoad()

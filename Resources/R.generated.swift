@@ -89,64 +89,6 @@ struct R: Rswift.Validatable {
   }
 
   #if os(iOS) || os(tvOS)
-  /// This `R.segue` struct is generated, and contains static references to 3 view controllers.
-  struct segue {
-    /// This struct is generated for `AssetsViewController`, and contains static references to 1 segues.
-    struct assetsViewController {
-      /// Segue identifier `assetDetails`.
-      static let assetDetails: Rswift.StoryboardSegueIdentifier<UIKit.UIStoryboardSegue, AssetsViewController, AssetDetailsViewController> = Rswift.StoryboardSegueIdentifier(identifier: "assetDetails")
-
-      #if os(iOS) || os(tvOS)
-      /// Optionally returns a typed version of segue `assetDetails`.
-      /// Returns nil if either the segue identifier, the source, destination, or segue types don't match.
-      /// For use inside `prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)`.
-      static func assetDetails(segue: UIKit.UIStoryboardSegue) -> Rswift.TypedStoryboardSegueInfo<UIKit.UIStoryboardSegue, AssetsViewController, AssetDetailsViewController>? {
-        return Rswift.TypedStoryboardSegueInfo(segueIdentifier: R.segue.assetsViewController.assetDetails, segue: segue)
-      }
-      #endif
-
-      fileprivate init() {}
-    }
-
-    /// This struct is generated for `SettingsViewController`, and contains static references to 1 segues.
-    struct settingsViewController {
-      /// Segue identifier `icon`.
-      static let icon: Rswift.StoryboardSegueIdentifier<UIKit.UIStoryboardSegue, SettingsViewController, SettingsIconViewController> = Rswift.StoryboardSegueIdentifier(identifier: "icon")
-
-      #if os(iOS) || os(tvOS)
-      /// Optionally returns a typed version of segue `icon`.
-      /// Returns nil if either the segue identifier, the source, destination, or segue types don't match.
-      /// For use inside `prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)`.
-      static func icon(segue: UIKit.UIStoryboardSegue) -> Rswift.TypedStoryboardSegueInfo<UIKit.UIStoryboardSegue, SettingsViewController, SettingsIconViewController>? {
-        return Rswift.TypedStoryboardSegueInfo(segueIdentifier: R.segue.settingsViewController.icon, segue: segue)
-      }
-      #endif
-
-      fileprivate init() {}
-    }
-
-    /// This struct is generated for `WatchlistViewController`, and contains static references to 1 segues.
-    struct watchlistViewController {
-      /// Segue identifier `assetDetails`.
-      static let assetDetails: Rswift.StoryboardSegueIdentifier<UIKit.UIStoryboardSegue, WatchlistViewController, AssetDetailsViewController> = Rswift.StoryboardSegueIdentifier(identifier: "assetDetails")
-
-      #if os(iOS) || os(tvOS)
-      /// Optionally returns a typed version of segue `assetDetails`.
-      /// Returns nil if either the segue identifier, the source, destination, or segue types don't match.
-      /// For use inside `prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)`.
-      static func assetDetails(segue: UIKit.UIStoryboardSegue) -> Rswift.TypedStoryboardSegueInfo<UIKit.UIStoryboardSegue, WatchlistViewController, AssetDetailsViewController>? {
-        return Rswift.TypedStoryboardSegueInfo(segueIdentifier: R.segue.watchlistViewController.assetDetails, segue: segue)
-      }
-      #endif
-
-      fileprivate init() {}
-    }
-
-    fileprivate init() {}
-  }
-  #endif
-
-  #if os(iOS) || os(tvOS)
   /// This `R.storyboard` struct is generated, and contains static references to 2 storyboards.
   struct storyboard {
     /// Storyboard `LaunchScreen`.
@@ -706,19 +648,44 @@ struct _R: Rswift.Validatable {
     #endif
 
     #if os(iOS) || os(tvOS)
-    struct main: Rswift.StoryboardResourceWithInitialControllerType, Rswift.Validatable {
-      typealias InitialController = UIKit.UITabBarController
-
+    struct main: Rswift.StoryboardResourceType, Rswift.Validatable {
+      let assetDetailsViewController = StoryboardViewControllerResource<AssetDetailsViewController>(identifier: "AssetDetailsViewController")
+      let assetsViewController = StoryboardViewControllerResource<AssetsViewController>(identifier: "AssetsViewController")
       let bundle = R.hostingBundle
       let name = "Main"
+      let settingsIconViewController = StoryboardViewControllerResource<SettingsIconViewController>(identifier: "SettingsIconViewController")
+      let settingsViewController = StoryboardViewControllerResource<SettingsViewController>(identifier: "SettingsViewController")
+      let watchlistViewController = StoryboardViewControllerResource<WatchlistViewController>(identifier: "WatchlistViewController")
+
+      func assetDetailsViewController(_: Void = ()) -> AssetDetailsViewController? {
+        return UIKit.UIStoryboard(resource: self).instantiateViewController(withResource: assetDetailsViewController)
+      }
+
+      func assetsViewController(_: Void = ()) -> AssetsViewController? {
+        return UIKit.UIStoryboard(resource: self).instantiateViewController(withResource: assetsViewController)
+      }
+
+      func settingsIconViewController(_: Void = ()) -> SettingsIconViewController? {
+        return UIKit.UIStoryboard(resource: self).instantiateViewController(withResource: settingsIconViewController)
+      }
+
+      func settingsViewController(_: Void = ()) -> SettingsViewController? {
+        return UIKit.UIStoryboard(resource: self).instantiateViewController(withResource: settingsViewController)
+      }
+
+      func watchlistViewController(_: Void = ()) -> WatchlistViewController? {
+        return UIKit.UIStoryboard(resource: self).instantiateViewController(withResource: watchlistViewController)
+      }
 
       static func validate() throws {
-        if UIKit.UIImage(named: "assets", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'assets' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "favorites", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'favorites' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "settings", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'settings' is used in storyboard 'Main', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
           if UIKit.UIColor(named: "secondaryTextColor", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'secondaryTextColor' is used in storyboard 'Main', but couldn't be loaded.") }
         }
+        if _R.storyboard.main().assetDetailsViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'assetDetailsViewController' could not be loaded from storyboard 'Main' as 'AssetDetailsViewController'.") }
+        if _R.storyboard.main().assetsViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'assetsViewController' could not be loaded from storyboard 'Main' as 'AssetsViewController'.") }
+        if _R.storyboard.main().settingsIconViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'settingsIconViewController' could not be loaded from storyboard 'Main' as 'SettingsIconViewController'.") }
+        if _R.storyboard.main().settingsViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'settingsViewController' could not be loaded from storyboard 'Main' as 'SettingsViewController'.") }
+        if _R.storyboard.main().watchlistViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'watchlistViewController' could not be loaded from storyboard 'Main' as 'WatchlistViewController'.") }
       }
 
       fileprivate init() {}

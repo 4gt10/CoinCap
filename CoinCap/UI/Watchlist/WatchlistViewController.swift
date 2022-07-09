@@ -12,6 +12,10 @@ final class WatchlistViewController: AssetsViewController {
     @IBOutlet private weak var emptyTitleLabel: UILabel!
     @IBOutlet private weak var emptyDescriptionLabel: UILabel!
     
+    var watchlistCoordinator: WatchlistCoordinator? {
+        return coordinator as? WatchlistCoordinator
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -59,9 +63,7 @@ extension WatchlistViewController {
 // MARK: - Private
 private extension WatchlistViewController {
     func reload() {
-        guard let dataController = dataController as? WatchListDataController else {
-            return
-        }
+        guard let dataController = dataController as? WatchListDataController else { return }
         tableView.isHidden = dataController.isEmpty
         emptyView.isHidden = !dataController.isEmpty
         dataController.reload()

@@ -10,13 +10,23 @@ import UIKit
 @main
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
+    private var coordinator: AppCoordinator?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        self.window = UIWindow(frame: UIScreen.main.bounds)
-        guard let window = window else { return false }
-        window.rootViewController = R.storyboard.main.instantiateInitialViewController()
-        window.makeKeyAndVisible()
+        configureAppFlow()
         return true
     }
 }
 
+// MARK: - Flow
+private extension AppDelegate {
+    func configureAppFlow() {
+        let tabBarController = UITabBarController()
+        coordinator = AppCoordinator(tabBarController: tabBarController)
+        coordinator?.start()
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = tabBarController
+        window?.makeKeyAndVisible()
+    }
+}

@@ -7,10 +7,16 @@
 
 import UIKit
 
-final class SettingsViewController: UIViewController {
-    @IBOutlet private weak var tableVIew: UITableView!
+final class SettingsViewController: UIViewController, Storyboarded {
+    @IBOutlet private weak var tableView: UITableView!
     
-    private let dataController = SettingsDataController()
+    private lazy var dataController = SettingsDataController(
+        onUpdatedItemAtIndexPath: { [weak self] in
+            self?.tableView.reloadRows(at: [$0], with: .none)
+        }
+    )
+    
+    weak var coordinator: SettingsCoordinator?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +27,8 @@ final class SettingsViewController: UIViewController {
 
 extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: R.segue.settingsViewController.icon, sender: self)
+        guard let item = dataController.item(atIndexPath: indexPath) else { return }
+        coordinator?.openSettings(item)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
@@ -31,6 +38,6 @@ private extension SettingsViewController {
     func setup() {
         title = R.string.localizable.settingsTitle()
         
-        tableVIew.dataSource = dataController
+        tableView.dataSource = dataController
     }
 }

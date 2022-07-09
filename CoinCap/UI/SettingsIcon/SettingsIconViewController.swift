@@ -7,11 +7,16 @@
 
 import UIKit
 
-final class SettingsIconViewController: UIViewController {
+final class SettingsIconViewController: UIViewController, Storyboarded {
     @IBOutlet private weak var tableVIew: UITableView!
-    private lazy var dataControlleer = SettingsIconDataController(onSelected: { [weak self] in
-        self?.tableVIew.reloadData()
-    })
+    
+    private lazy var dataController = SettingsIconDataController(
+        onSelected: { [weak self] in
+            self?.tableVIew.reloadData()
+        }
+    )
+    
+    weak var coordinator: SettingsCoordinator?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +26,7 @@ final class SettingsIconViewController: UIViewController {
 
 extension SettingsIconViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        dataControlleer.selectedItem(at: indexPath)
+        dataController.selectedItem(at: indexPath)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
@@ -31,6 +36,6 @@ private extension SettingsIconViewController {
     func setup() {
         title = R.string.localizable.settingsIconTitle()
         
-        tableVIew.dataSource = dataControlleer
+        tableVIew.dataSource = dataController
     }
 }

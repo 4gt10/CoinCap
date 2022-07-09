@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AssetsViewController: UIViewController {
+class AssetsViewController: UIViewController, Storyboarded {
     @IBOutlet private(set) weak var tableView: UITableView!
     private(set) lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -18,20 +18,11 @@ class AssetsViewController: UIViewController {
     private var debounceWorkItem: DispatchWorkItem?
     
     var dataController: AssetsDataController!
+    weak var coordinator: AssetsCoordinator?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard
-            let destination = segue.destination as? AssetDetailsViewController,
-            let selectedIndexPath = tableView.indexPathForSelectedRow,
-            let asset = dataController.item(at: selectedIndexPath) else {
-            return
-        }
-        destination.setDataController(.init(asset: asset))
     }
     
     func setup() {
@@ -64,7 +55,8 @@ class AssetsViewController: UIViewController {
 
 extension AssetsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: R.segue.assetsViewController.assetDetails, sender: self)
+        guard let asset = dataController.item(at: indexPath) else { return }
+        coordinator?.openAssetDetails(asset)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     

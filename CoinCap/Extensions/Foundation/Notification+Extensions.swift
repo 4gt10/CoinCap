@@ -9,4 +9,5 @@ import Foundation
 
 extension Notification.Name {
     static let favoritesUpdated = Notification.Name("com.gmail.forgot10soul.CoinCap.notification.favoritesUpdated")
+    static let iconUpdated = Notification.Name("com.gmail.forgot10soul.CoinCap.notification.iconUpdated")
 }

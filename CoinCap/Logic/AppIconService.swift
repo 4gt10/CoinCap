@@ -29,6 +29,9 @@ final class AppIconService {
         }
     }
     
+    static let shared = AppIconService()
+    private init() {}
+    
     var all: [Icon] { Icon.allCases }
     var current: Icon {
         Icon.allCases.first { $0.name == UIApplication.shared.alternateIconName } ?? .white
@@ -39,5 +42,6 @@ final class AppIconService {
             return
         }
         UIApplication.shared.setAlternateIconName(appIcon.name) { _ in }
+        NotificationCenter.default.post(name: .iconUpdated, object: nil)
     }
 }
