@@ -16,8 +16,6 @@ final class AppCoordinator: Coordinator {
     }
     
     func start() {
-        childCoordinators.removeAll()
-        
         let assetsNavigationController = UINavigationController()
         let assetsCoordinator = AssetsCoordinatorImpl(navigationController: assetsNavigationController)
         childCoordinators.append(assetsCoordinator)
