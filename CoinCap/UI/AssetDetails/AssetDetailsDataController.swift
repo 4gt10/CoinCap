@@ -43,12 +43,14 @@ final class AssetDetailsDataController: NSObject {
     
     private var asset: Asset
     private var items: [DetailItem]
-    private let assetsService: AssetsService = NetworkAssetsService()
-    private let favoritesService: FavoritesService = UserDefaultsFavoritesService()
+    private let assetsService: AssetsService
+    private let favoritesService: FavoritesService
     
-    init(asset: Asset) {
+    init(asset: Asset, assetsService: AssetsService, favoritesService: FavoritesService) {
         self.asset = asset
         self.items = asset.items
+        self.assetsService = assetsService
+        self.favoritesService = favoritesService
         
         super.init()
     }

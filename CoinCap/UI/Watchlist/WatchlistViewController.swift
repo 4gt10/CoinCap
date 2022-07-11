@@ -27,14 +27,16 @@ final class WatchlistViewController: AssetsViewController {
     }
     
     override func setup() {
-        dataController = WatchListDataController { [weak self] in
+        dataController.onLoaded = { [weak self] in
             self?.refreshControl.endRefreshing()
             self?.tableView.reloadData()
-        } onError: { [weak self] error in
+        }
+        dataController.onError = { [weak self] error in
             self?.refreshControl.endRefreshing()
             self?.alertMessage(error.localizedDescription)
-        } onDelete: {
-            self.reload()
+        }
+        (dataController as? WatchListDataController)?.onDelete = { [weak self] in
+            self?.reload()
         }
         
         title = R.string.localizable.watchlistTitle()

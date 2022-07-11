@@ -9,14 +9,15 @@ import Foundation
 import UIKit
 
 final class WatchListDataController: AssetsDataController {
-    private let favoritesService: FavoritesService = UserDefaultsFavoritesService()
-    private var onDelete: (() -> Void)?
+    private let favoritesService: FavoritesService
     
+    var onDelete: (() -> Void)?
     var isEmpty: Bool { favoritesService.all.isEmpty }
     
-    init(onLoaded: (() -> Void)?, onError: ((AssetsDataControllerError) -> Void)?, onDelete: (() -> Void)?) {
-        super.init(onLoaded: onLoaded, onError: onError)
-        self.onDelete = onDelete
+    init(assetsService: AssetsService, favoritesService: FavoritesService) {
+        self.favoritesService = favoritesService
+        
+        super.init(assetsService: assetsService)
     }
     
     func reload() {

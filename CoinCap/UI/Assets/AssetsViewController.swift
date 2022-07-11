@@ -26,10 +26,11 @@ class AssetsViewController: UIViewController, Storyboarded {
     }
     
     func setup() {
-        dataController = AssetsDataController { [weak self] in
+        dataController.onLoaded = { [weak self] in
             self?.refreshControl.endRefreshing()
             self?.tableView.reloadData()
-        } onError: { [weak self] error in
+        }
+        dataController.onError = { [weak self] error in
             self?.refreshControl.endRefreshing()
             self?.alertMessage(error.localizedDescription)
         }

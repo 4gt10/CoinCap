@@ -14,15 +14,20 @@ protocol AssetsCoordinator: Coordinator {
 final class AssetsCoordinatorImpl {
     private(set) var childCoordinators = [Coordinator]()
     private var navigationController: UINavigationController
+    private let assetsService: AssetsService
+    private let favoritesService: FavoritesService
     
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, assetsService: AssetsService, favoritesService: FavoritesService) {
         self.navigationController = navigationController
+        self.assetsService = assetsService
+        self.favoritesService = favoritesService
     }
     
     func start() {
         let viewController = AssetsViewController.instantiate()
         viewController.coordinator = self
         viewController.tabBarItem = .init(title: R.string.localizable.assetsTitle(), image: R.image.assets(), tag: 0)
+        viewController.dataController = .init(assetsService: NetworkAssetsService())
         navigationController.setViewControllers([viewController], animated: false)
     }
 }
@@ -32,7 +37,7 @@ extension AssetsCoordinatorImpl: AssetsCoordinator {
     func openAssetDetails(_ asset: Asset) {
         let viewController = AssetDetailsViewController.instantiate()
         viewController.coordinator = self
-        viewController.setDataController(.init(asset: asset))
+        viewController.setDataController(.init(asset: asset, assetsService: assetsService, favoritesService: favoritesService))
         navigationController.pushViewController(viewController, animated: true)
     }
 }

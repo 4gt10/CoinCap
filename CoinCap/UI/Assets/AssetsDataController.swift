@@ -36,7 +36,7 @@ enum AssetsDataControllerError: Error {
 }
 
 class AssetsDataController: NSObject {
-    private let assetsService: AssetsService = NetworkAssetsService()
+    private let assetsService: AssetsService
     
     private var query = ""
     private var ids: [String] = []
@@ -45,14 +45,14 @@ class AssetsDataController: NSObject {
     private var isEverythingLoaded = false
     
     private(set) var assets = [Asset]()
-    private(set) var onLoaded: (() -> Void)?
-    private(set) var onError: ((AssetsDataControllerError) -> Void)?
     
-    init(onLoaded: (() -> Void)? = nil, onError: ((AssetsDataControllerError) -> Void)? = nil) {
-        super.init()
+    var onLoaded: (() -> Void)?
+    var onError: ((AssetsDataControllerError) -> Void)?
+    
+    init(assetsService: AssetsService) {
+        self.assetsService = assetsService
         
-        self.onLoaded = onLoaded
-        self.onError = onError
+        super.init()
     }
     
     func reload(withQuery query: String = "", ids: [String] = []) {
@@ -84,14 +84,16 @@ class AssetsDataController: NSObject {
             guard let self = self else {
                 return
             }
-            self.isLoading = false
-            switch result {
-            case let .success(assets):
-                self.assets += assets
-                self.isEverythingLoaded = assets.isEmpty
-                DispatchQueue.main.async { self.onLoaded?() }
-            case let .failure(error):
-                DispatchQueue.main.async { self.onError?(.init(error)) }
+            DispatchQueue.main.async {
+                self.isLoading = false
+                switch result {
+                case let .success(assets):
+                    self.assets += assets
+                    self.isEverythingLoaded = assets.isEmpty
+                    self.onLoaded?()
+                case let .failure(error):
+                    self.onError?(.init(error))
+                }
             }
         }
     }
