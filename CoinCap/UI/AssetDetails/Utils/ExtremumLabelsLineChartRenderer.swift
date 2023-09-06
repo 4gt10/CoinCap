@@ -5,7 +5,7 @@
 //  Created by Артур Чернов on 26.03.2022.
 //
 
-import Charts
+import DGCharts
 
 final class ExtremumLabelsLineChartRenderer: LineChartRenderer {
     private var _xBounds = XBounds()

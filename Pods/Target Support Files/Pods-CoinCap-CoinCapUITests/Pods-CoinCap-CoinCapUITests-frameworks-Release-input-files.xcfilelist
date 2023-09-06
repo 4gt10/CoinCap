@@ -1,5 +1,4 @@
 ${PODS_ROOT}/Target Support Files/Pods-CoinCap-CoinCapUITests/Pods-CoinCap-CoinCapUITests-frameworks.sh
-${BUILT_PRODUCTS_DIR}/Charts/Charts.framework
+${BUILT_PRODUCTS_DIR}/DGCharts/DGCharts.framework
 ${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework
-${BUILT_PRODUCTS_DIR}/R.swift.Library/Rswift.framework
-${BUILT_PRODUCTS_DIR}/SwiftAlgorithms/Algorithms.framework
+${BUILT_PRODUCTS_DIR}/R.swift/RswiftResources.framework

@@ -4,697 +4,285 @@
 //
 
 import Foundation
-import Rswift
+import RswiftResources
 import UIKit
 
-/// This `R` struct is generated and contains references to static resources.
-struct R: Rswift.Validatable {
-  fileprivate static let applicationLocale = hostingBundle.preferredLocalizations.first.flatMap { Locale(identifier: $0) } ?? Locale.current
-  fileprivate static let hostingBundle = Bundle(for: R.Class.self)
+private class BundleFinder {}
+let R = _R(bundle: Bundle(for: BundleFinder.self))
 
-  /// Find first language and bundle for which the table exists
-  fileprivate static func localeBundle(tableName: String, preferredLanguages: [String]) -> (Foundation.Locale, Foundation.Bundle)? {
-    // Filter preferredLanguages to localizations, use first locale
-    var languages = preferredLanguages
-      .map { Locale(identifier: $0) }
-      .prefix(1)
-      .flatMap { locale -> [String] in
-        if hostingBundle.localizations.contains(locale.identifier) {
-          if let language = locale.languageCode, hostingBundle.localizations.contains(language) {
-            return [locale.identifier, language]
-          } else {
-            return [locale.identifier]
-          }
-        } else if let language = locale.languageCode, hostingBundle.localizations.contains(language) {
-          return [language]
-        } else {
-          return []
-        }
-      }
+struct _R {
+  let bundle: Foundation.Bundle
 
-    // If there's no languages, use development language as backstop
-    if languages.isEmpty {
-      if let developmentLocalization = hostingBundle.developmentLocalization {
-        languages = [developmentLocalization]
-      }
-    } else {
-      // Insert Base as second item (between locale identifier and languageCode)
-      languages.insert("Base", at: 1)
+  let reuseIdentifier = reuseIdentifier()
 
-      // Add development language as backstop
-      if let developmentLocalization = hostingBundle.developmentLocalization {
-        languages.append(developmentLocalization)
-      }
-    }
+  var string: string { .init(bundle: bundle, preferredLanguages: nil, locale: nil) }
+  var color: color { .init(bundle: bundle) }
+  var image: image { .init(bundle: bundle) }
+  var storyboard: storyboard { .init(bundle: bundle) }
 
-    // Find first language for which table exists
-    // Note: key might not exist in chosen language (in that case, key will be shown)
-    for language in languages {
-      if let lproj = hostingBundle.url(forResource: language, withExtension: "lproj"),
-         let lbundle = Bundle(url: lproj)
-      {
-        let strings = lbundle.url(forResource: tableName, withExtension: "strings")
-        let stringsdict = lbundle.url(forResource: tableName, withExtension: "stringsdict")
-
-        if strings != nil || stringsdict != nil {
-          return (Locale(identifier: language), lbundle)
-        }
-      }
-    }
-
-    // If table is available in main bundle, don't look for localized resources
-    let strings = hostingBundle.url(forResource: tableName, withExtension: "strings", subdirectory: nil, localization: nil)
-    let stringsdict = hostingBundle.url(forResource: tableName, withExtension: "stringsdict", subdirectory: nil, localization: nil)
-
-    if strings != nil || stringsdict != nil {
-      return (applicationLocale, hostingBundle)
-    }
-
-    // If table is not found for requested languages, key will be shown
-    return nil
+  func string(bundle: Foundation.Bundle) -> string {
+    .init(bundle: bundle, preferredLanguages: nil, locale: nil)
+  }
+  func string(locale: Foundation.Locale) -> string {
+    .init(bundle: bundle, preferredLanguages: nil, locale: locale)
+  }
+  func string(preferredLanguages: [String], locale: Locale? = nil) -> string {
+    .init(bundle: bundle, preferredLanguages: preferredLanguages, locale: locale)
+  }
+  func color(bundle: Foundation.Bundle) -> color {
+    .init(bundle: bundle)
+  }
+  func image(bundle: Foundation.Bundle) -> image {
+    .init(bundle: bundle)
+  }
+  func storyboard(bundle: Foundation.Bundle) -> storyboard {
+    .init(bundle: bundle)
+  }
+  func validate() throws {
+    try self.storyboard.validate()
   }
 
-  /// Load string from Info.plist file
-  fileprivate static func infoPlistString(path: [String], key: String) -> String? {
-    var dict = hostingBundle.infoDictionary
-    for step in path {
-      guard let obj = dict?[step] as? [String: Any] else { return nil }
-      dict = obj
-    }
-    return dict?[key] as? String
+  struct project {
+    let developmentRegion = "en"
   }
 
-  static func validate() throws {
-    try intern.validate()
-  }
-
-  #if os(iOS) || os(tvOS)
-  /// This `R.storyboard` struct is generated, and contains static references to 2 storyboards.
-  struct storyboard {
-    /// Storyboard `LaunchScreen`.
-    static let launchScreen = _R.storyboard.launchScreen()
-    /// Storyboard `Main`.
-    static let main = _R.storyboard.main()
-
-    #if os(iOS) || os(tvOS)
-    /// `UIStoryboard(name: "LaunchScreen", bundle: ...)`
-    static func launchScreen(_: Void = ()) -> UIKit.UIStoryboard {
-      return UIKit.UIStoryboard(resource: R.storyboard.launchScreen)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIStoryboard(name: "Main", bundle: ...)`
-    static func main(_: Void = ()) -> UIKit.UIStoryboard {
-      return UIKit.UIStoryboard(resource: R.storyboard.main)
-    }
-    #endif
-
-    fileprivate init() {}
-  }
-  #endif
-
-  /// This `R.color` struct is generated, and contains static references to 4 colors.
-  struct color {
-    /// Color `AccentColor`.
-    static let accentColor = Rswift.ColorResource(bundle: R.hostingBundle, name: "AccentColor")
-    /// Color `negativeRed`.
-    static let negativeRed = Rswift.ColorResource(bundle: R.hostingBundle, name: "negativeRed")
-    /// Color `positiveGreen`.
-    static let positiveGreen = Rswift.ColorResource(bundle: R.hostingBundle, name: "positiveGreen")
-    /// Color `secondaryTextColor`.
-    static let secondaryTextColor = Rswift.ColorResource(bundle: R.hostingBundle, name: "secondaryTextColor")
-
-    #if os(iOS) || os(tvOS)
-    /// `UIColor(named: "AccentColor", bundle: ..., traitCollection: ...)`
-    @available(tvOS 11.0, *)
-    @available(iOS 11.0, *)
-    static func accentColor(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
-      return UIKit.UIColor(resource: R.color.accentColor, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIColor(named: "negativeRed", bundle: ..., traitCollection: ...)`
-    @available(tvOS 11.0, *)
-    @available(iOS 11.0, *)
-    static func negativeRed(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
-      return UIKit.UIColor(resource: R.color.negativeRed, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIColor(named: "positiveGreen", bundle: ..., traitCollection: ...)`
-    @available(tvOS 11.0, *)
-    @available(iOS 11.0, *)
-    static func positiveGreen(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
-      return UIKit.UIColor(resource: R.color.positiveGreen, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIColor(named: "secondaryTextColor", bundle: ..., traitCollection: ...)`
-    @available(tvOS 11.0, *)
-    @available(iOS 11.0, *)
-    static func secondaryTextColor(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
-      return UIKit.UIColor(resource: R.color.secondaryTextColor, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(watchOS)
-    /// `UIColor(named: "AccentColor", bundle: ..., traitCollection: ...)`
-    @available(watchOSApplicationExtension 4.0, *)
-    static func accentColor(_: Void = ()) -> UIKit.UIColor? {
-      return UIKit.UIColor(named: R.color.accentColor.name)
-    }
-    #endif
-
-    #if os(watchOS)
-    /// `UIColor(named: "negativeRed", bundle: ..., traitCollection: ...)`
-    @available(watchOSApplicationExtension 4.0, *)
-    static func negativeRed(_: Void = ()) -> UIKit.UIColor? {
-      return UIKit.UIColor(named: R.color.negativeRed.name)
-    }
-    #endif
-
-    #if os(watchOS)
-    /// `UIColor(named: "positiveGreen", bundle: ..., traitCollection: ...)`
-    @available(watchOSApplicationExtension 4.0, *)
-    static func positiveGreen(_: Void = ()) -> UIKit.UIColor? {
-      return UIKit.UIColor(named: R.color.positiveGreen.name)
-    }
-    #endif
-
-    #if os(watchOS)
-    /// `UIColor(named: "secondaryTextColor", bundle: ..., traitCollection: ...)`
-    @available(watchOSApplicationExtension 4.0, *)
-    static func secondaryTextColor(_: Void = ()) -> UIKit.UIColor? {
-      return UIKit.UIColor(named: R.color.secondaryTextColor.name)
-    }
-    #endif
-
-    fileprivate init() {}
-  }
-
-  /// This `R.image` struct is generated, and contains static references to 6 images.
-  struct image {
-    /// Image `assets`.
-    static let assets = Rswift.ImageResource(bundle: R.hostingBundle, name: "assets")
-    /// Image `favorite.off`.
-    static let favoriteOff = Rswift.ImageResource(bundle: R.hostingBundle, name: "favorite.off")
-    /// Image `favorite.on`.
-    static let favoriteOn = Rswift.ImageResource(bundle: R.hostingBundle, name: "favorite.on")
-    /// Image `favorites`.
-    static let favorites = Rswift.ImageResource(bundle: R.hostingBundle, name: "favorites")
-    /// Image `logoPlaceholder`.
-    static let logoPlaceholder = Rswift.ImageResource(bundle: R.hostingBundle, name: "logoPlaceholder")
-    /// Image `settings`.
-    static let settings = Rswift.ImageResource(bundle: R.hostingBundle, name: "settings")
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "assets", bundle: ..., traitCollection: ...)`
-    static func assets(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.assets, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "favorite.off", bundle: ..., traitCollection: ...)`
-    static func favoriteOff(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.favoriteOff, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "favorite.on", bundle: ..., traitCollection: ...)`
-    static func favoriteOn(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.favoriteOn, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "favorites", bundle: ..., traitCollection: ...)`
-    static func favorites(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.favorites, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "logoPlaceholder", bundle: ..., traitCollection: ...)`
-    static func logoPlaceholder(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.logoPlaceholder, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "settings", bundle: ..., traitCollection: ...)`
-    static func settings(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.settings, compatibleWith: traitCollection)
-    }
-    #endif
-
-    fileprivate init() {}
-  }
-
-  /// This `R.reuseIdentifier` struct is generated, and contains static references to 2 reuse identifiers.
-  struct reuseIdentifier {
-    /// Reuse identifier `AssetCell`.
-    static let assetCell: Rswift.ReuseIdentifier<AssetCell> = Rswift.ReuseIdentifier(identifier: "AssetCell")
-    /// Reuse identifier `DetailCell`.
-    static let detailCell: Rswift.ReuseIdentifier<DetailCell> = Rswift.ReuseIdentifier(identifier: "DetailCell")
-
-    fileprivate init() {}
-  }
-
-  /// This `R.string` struct is generated, and contains static references to 1 localization tables.
+  /// This `_R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 17 localization keys.
+    let bundle: Foundation.Bundle
+    let preferredLanguages: [String]?
+    let locale: Locale?
+    var localizable: localizable { .init(source: .init(bundle: bundle, tableName: "Localizable", preferredLanguages: preferredLanguages, locale: locale)) }
+
+    func localizable(preferredLanguages: [String]) -> localizable {
+      .init(source: .init(bundle: bundle, tableName: "Localizable", preferredLanguages: preferredLanguages, locale: locale))
+    }
+
+
+    /// This `_R.string.localizable` struct is generated, and contains static references to 17 localization keys.
     struct localizable {
-      /// en translation: Assets
-      ///
-      /// Locales: en
-      static let assetsTitle = Rswift.StringResource(key: "assets.title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
-      /// en translation: Black
-      ///
-      /// Locales: en
-      static let settingsIconBlackTitle = Rswift.StringResource(key: "settings.icon.black.title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
-      /// en translation: Delete
-      ///
-      /// Locales: en
-      static let watchlistItemDeleteActionTitle = Rswift.StringResource(key: "watchlist.item.deleteAction.title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
-      /// en translation: Icon
-      ///
-      /// Locales: en
-      static let settingsIconTitle = Rswift.StringResource(key: "settings.icon.title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
-      /// en translation: Incorrect data. Please, try to reload the page later
-      ///
-      /// Locales: en
-      static let errorIncorrectData = Rswift.StringResource(key: "error.incorrectData", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
-      /// en translation: Localizable
-      ///
-      /// Locales: en
-      static let filename = Rswift.StringResource(key: "filename", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
-      /// en translation: Market Cap
-      ///
-      /// Locales: en
-      static let assetDetailsItemMarketCapTitle = Rswift.StringResource(key: "assetDetails.item.marketCap.title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
-      /// en translation: No assets yet
-      ///
-      /// Locales: en
-      static let watchlistEmptyTitle = Rswift.StringResource(key: "watchlist.empty.title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
-      /// en translation: OK
-      ///
-      /// Locales: en
-      static let commonAlertActionOk = Rswift.StringResource(key: "common.alert.action.ok", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
-      /// en translation: Search
-      ///
-      /// Locales: en
-      static let assetsSearchBarPlaceholder = Rswift.StringResource(key: "assets.searchBar.placeholder", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
-      /// en translation: Settings
-      ///
-      /// Locales: en
-      static let settingsTitle = Rswift.StringResource(key: "settings.title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
-      /// en translation: Supply
-      ///
-      /// Locales: en
-      static let assetDetailsItemSupplyTitle = Rswift.StringResource(key: "assetDetails.item.supply.title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
-      /// en translation: Volume (24h)
-      ///
-      /// Locales: en
-      static let assetDetailsItemVolumeTitle = Rswift.StringResource(key: "assetDetails.item.volume.title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
-      /// en translation: Watchlist
-      ///
-      /// Locales: en
-      static let watchlistTitle = Rswift.StringResource(key: "watchlist.title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
-      /// en translation: White
-      ///
-      /// Locales: en
-      static let settingsIconWhiteTitle = Rswift.StringResource(key: "settings.icon.white.title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
-      /// en translation: Yellow
-      ///
-      /// Locales: en
-      static let settingsIconYellowTitle = Rswift.StringResource(key: "settings.icon.yellow.title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
-      /// en translation: Your Watchlist will appear here
-      ///
-      /// Locales: en
-      static let watchlistEmptyDescription = Rswift.StringResource(key: "watchlist.empty.description", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
-
-      /// en translation: Assets
-      ///
-      /// Locales: en
-      static func assetsTitle(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("assets.title", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "assets.title"
-        }
-
-        return NSLocalizedString("assets.title", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Black
-      ///
-      /// Locales: en
-      static func settingsIconBlackTitle(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("settings.icon.black.title", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "settings.icon.black.title"
-        }
-
-        return NSLocalizedString("settings.icon.black.title", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Delete
-      ///
-      /// Locales: en
-      static func watchlistItemDeleteActionTitle(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("watchlist.item.deleteAction.title", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "watchlist.item.deleteAction.title"
-        }
-
-        return NSLocalizedString("watchlist.item.deleteAction.title", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Icon
-      ///
-      /// Locales: en
-      static func settingsIconTitle(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("settings.icon.title", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "settings.icon.title"
-        }
-
-        return NSLocalizedString("settings.icon.title", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Incorrect data. Please, try to reload the page later
-      ///
-      /// Locales: en
-      static func errorIncorrectData(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("error.incorrectData", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "error.incorrectData"
-        }
-
-        return NSLocalizedString("error.incorrectData", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Localizable
-      ///
-      /// Locales: en
-      static func filename(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("filename", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "filename"
-        }
-
-        return NSLocalizedString("filename", bundle: bundle, comment: "")
-      }
+      let source: RswiftResources.StringResource.Source
 
       /// en translation: Market Cap
       ///
-      /// Locales: en
-      static func assetDetailsItemMarketCapTitle(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("assetDetails.item.marketCap.title", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "assetDetails.item.marketCap.title"
-        }
-
-        return NSLocalizedString("assetDetails.item.marketCap.title", bundle: bundle, comment: "")
-      }
-
-      /// en translation: No assets yet
+      /// Key: assetDetails.item.marketCap.title
       ///
       /// Locales: en
-      static func watchlistEmptyTitle(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("watchlist.empty.title", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "watchlist.empty.title"
-        }
-
-        return NSLocalizedString("watchlist.empty.title", bundle: bundle, comment: "")
-      }
-
-      /// en translation: OK
-      ///
-      /// Locales: en
-      static func commonAlertActionOk(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("common.alert.action.ok", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "common.alert.action.ok"
-        }
-
-        return NSLocalizedString("common.alert.action.ok", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Search
-      ///
-      /// Locales: en
-      static func assetsSearchBarPlaceholder(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("assets.searchBar.placeholder", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "assets.searchBar.placeholder"
-        }
-
-        return NSLocalizedString("assets.searchBar.placeholder", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Settings
-      ///
-      /// Locales: en
-      static func settingsTitle(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("settings.title", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "settings.title"
-        }
-
-        return NSLocalizedString("settings.title", bundle: bundle, comment: "")
-      }
+      var assetDetailsItemMarketCapTitle: RswiftResources.StringResource { .init(key: "assetDetails.item.marketCap.title", tableName: "Localizable", source: source, developmentValue: "Market Cap", comment: nil) }
 
       /// en translation: Supply
       ///
+      /// Key: assetDetails.item.supply.title
+      ///
       /// Locales: en
-      static func assetDetailsItemSupplyTitle(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("assetDetails.item.supply.title", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "assetDetails.item.supply.title"
-        }
-
-        return NSLocalizedString("assetDetails.item.supply.title", bundle: bundle, comment: "")
-      }
+      var assetDetailsItemSupplyTitle: RswiftResources.StringResource { .init(key: "assetDetails.item.supply.title", tableName: "Localizable", source: source, developmentValue: "Supply", comment: nil) }
 
       /// en translation: Volume (24h)
       ///
-      /// Locales: en
-      static func assetDetailsItemVolumeTitle(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("assetDetails.item.volume.title", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "assetDetails.item.volume.title"
-        }
-
-        return NSLocalizedString("assetDetails.item.volume.title", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Watchlist
+      /// Key: assetDetails.item.volume.title
       ///
       /// Locales: en
-      static func watchlistTitle(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("watchlist.title", bundle: hostingBundle, comment: "")
-        }
+      var assetDetailsItemVolumeTitle: RswiftResources.StringResource { .init(key: "assetDetails.item.volume.title", tableName: "Localizable", source: source, developmentValue: "Volume (24h)", comment: nil) }
 
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "watchlist.title"
-        }
+      /// en translation: Search
+      ///
+      /// Key: assets.searchBar.placeholder
+      ///
+      /// Locales: en
+      var assetsSearchBarPlaceholder: RswiftResources.StringResource { .init(key: "assets.searchBar.placeholder", tableName: "Localizable", source: source, developmentValue: "Search", comment: nil) }
 
-        return NSLocalizedString("watchlist.title", bundle: bundle, comment: "")
-      }
+      /// en translation: Assets
+      ///
+      /// Key: assets.title
+      ///
+      /// Locales: en
+      var assetsTitle: RswiftResources.StringResource { .init(key: "assets.title", tableName: "Localizable", source: source, developmentValue: "Assets", comment: nil) }
+
+      /// en translation: OK
+      ///
+      /// Key: common.alert.action.ok
+      ///
+      /// Locales: en
+      var commonAlertActionOk: RswiftResources.StringResource { .init(key: "common.alert.action.ok", tableName: "Localizable", source: source, developmentValue: "OK", comment: nil) }
+
+      /// en translation: Incorrect data. Please, try to reload the page later
+      ///
+      /// Key: error.incorrectData
+      ///
+      /// Locales: en
+      var errorIncorrectData: RswiftResources.StringResource { .init(key: "error.incorrectData", tableName: "Localizable", source: source, developmentValue: "Incorrect data. Please, try to reload the page later", comment: nil) }
+
+      /// en translation: Localizable
+      ///
+      /// Key: filename
+      ///
+      /// Locales: en
+      var filename: RswiftResources.StringResource { .init(key: "filename", tableName: "Localizable", source: source, developmentValue: "Localizable", comment: nil) }
+
+      /// en translation: Black
+      ///
+      /// Key: settings.icon.black.title
+      ///
+      /// Locales: en
+      var settingsIconBlackTitle: RswiftResources.StringResource { .init(key: "settings.icon.black.title", tableName: "Localizable", source: source, developmentValue: "Black", comment: nil) }
+
+      /// en translation: Icon
+      ///
+      /// Key: settings.icon.title
+      ///
+      /// Locales: en
+      var settingsIconTitle: RswiftResources.StringResource { .init(key: "settings.icon.title", tableName: "Localizable", source: source, developmentValue: "Icon", comment: nil) }
 
       /// en translation: White
       ///
+      /// Key: settings.icon.white.title
+      ///
       /// Locales: en
-      static func settingsIconWhiteTitle(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("settings.icon.white.title", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "settings.icon.white.title"
-        }
-
-        return NSLocalizedString("settings.icon.white.title", bundle: bundle, comment: "")
-      }
+      var settingsIconWhiteTitle: RswiftResources.StringResource { .init(key: "settings.icon.white.title", tableName: "Localizable", source: source, developmentValue: "White", comment: nil) }
 
       /// en translation: Yellow
       ///
+      /// Key: settings.icon.yellow.title
+      ///
       /// Locales: en
-      static func settingsIconYellowTitle(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("settings.icon.yellow.title", bundle: hostingBundle, comment: "")
-        }
+      var settingsIconYellowTitle: RswiftResources.StringResource { .init(key: "settings.icon.yellow.title", tableName: "Localizable", source: source, developmentValue: "Yellow", comment: nil) }
 
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "settings.icon.yellow.title"
-        }
-
-        return NSLocalizedString("settings.icon.yellow.title", bundle: bundle, comment: "")
-      }
+      /// en translation: Settings
+      ///
+      /// Key: settings.title
+      ///
+      /// Locales: en
+      var settingsTitle: RswiftResources.StringResource { .init(key: "settings.title", tableName: "Localizable", source: source, developmentValue: "Settings", comment: nil) }
 
       /// en translation: Your Watchlist will appear here
       ///
+      /// Key: watchlist.empty.description
+      ///
       /// Locales: en
-      static func watchlistEmptyDescription(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("watchlist.empty.description", bundle: hostingBundle, comment: "")
-        }
+      var watchlistEmptyDescription: RswiftResources.StringResource { .init(key: "watchlist.empty.description", tableName: "Localizable", source: source, developmentValue: "Your Watchlist will appear here", comment: nil) }
 
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "watchlist.empty.description"
-        }
+      /// en translation: No assets yet
+      ///
+      /// Key: watchlist.empty.title
+      ///
+      /// Locales: en
+      var watchlistEmptyTitle: RswiftResources.StringResource { .init(key: "watchlist.empty.title", tableName: "Localizable", source: source, developmentValue: "No assets yet", comment: nil) }
 
-        return NSLocalizedString("watchlist.empty.description", bundle: bundle, comment: "")
-      }
+      /// en translation: Delete
+      ///
+      /// Key: watchlist.item.deleteAction.title
+      ///
+      /// Locales: en
+      var watchlistItemDeleteActionTitle: RswiftResources.StringResource { .init(key: "watchlist.item.deleteAction.title", tableName: "Localizable", source: source, developmentValue: "Delete", comment: nil) }
 
-      fileprivate init() {}
+      /// en translation: Watchlist
+      ///
+      /// Key: watchlist.title
+      ///
+      /// Locales: en
+      var watchlistTitle: RswiftResources.StringResource { .init(key: "watchlist.title", tableName: "Localizable", source: source, developmentValue: "Watchlist", comment: nil) }
     }
-
-    fileprivate init() {}
   }
 
-  fileprivate struct intern: Rswift.Validatable {
-    fileprivate static func validate() throws {
-      try _R.validate()
-    }
+  /// This `_R.color` struct is generated, and contains static references to 4 colors.
+  struct color {
+    let bundle: Foundation.Bundle
 
-    fileprivate init() {}
+    /// Color `AccentColor`.
+    var accentColor: RswiftResources.ColorResource { .init(name: "AccentColor", path: [], bundle: bundle) }
+
+    /// Color `negativeRed`.
+    var negativeRed: RswiftResources.ColorResource { .init(name: "negativeRed", path: [], bundle: bundle) }
+
+    /// Color `positiveGreen`.
+    var positiveGreen: RswiftResources.ColorResource { .init(name: "positiveGreen", path: [], bundle: bundle) }
+
+    /// Color `secondaryTextColor`.
+    var secondaryTextColor: RswiftResources.ColorResource { .init(name: "secondaryTextColor", path: [], bundle: bundle) }
   }
 
-  fileprivate class Class {}
+  /// This `_R.image` struct is generated, and contains static references to 6 images.
+  struct image {
+    let bundle: Foundation.Bundle
 
-  fileprivate init() {}
-}
+    /// Image `assets`.
+    var assets: RswiftResources.ImageResource { .init(name: "assets", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
-struct _R: Rswift.Validatable {
-  static func validate() throws {
-    #if os(iOS) || os(tvOS)
-    try storyboard.validate()
-    #endif
+    /// Image `favorite.off`.
+    var favoriteOff: RswiftResources.ImageResource { .init(name: "favorite.off", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `favorite.on`.
+    var favoriteOn: RswiftResources.ImageResource { .init(name: "favorite.on", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `favorites`.
+    var favorites: RswiftResources.ImageResource { .init(name: "favorites", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `logoPlaceholder`.
+    var logoPlaceholder: RswiftResources.ImageResource { .init(name: "logoPlaceholder", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `settings`.
+    var settings: RswiftResources.ImageResource { .init(name: "settings", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
   }
 
-  #if os(iOS) || os(tvOS)
-  struct storyboard: Rswift.Validatable {
-    static func validate() throws {
-      #if os(iOS) || os(tvOS)
-      try launchScreen.validate()
-      #endif
-      #if os(iOS) || os(tvOS)
-      try main.validate()
-      #endif
+  /// This `_R.reuseIdentifier` struct is generated, and contains static references to 2 reuse identifiers.
+  struct reuseIdentifier {
+
+    /// Reuse identifier `AssetCell`.
+    let assetCell: RswiftResources.ReuseIdentifier<AssetCell> = .init(identifier: "AssetCell")
+
+    /// Reuse identifier `DetailCell`.
+    let detailCell: RswiftResources.ReuseIdentifier<DetailCell> = .init(identifier: "DetailCell")
+  }
+
+  /// This `_R.storyboard` struct is generated, and contains static references to 2 storyboards.
+  struct storyboard {
+    let bundle: Foundation.Bundle
+    var launchScreen: launchScreen { .init(bundle: bundle) }
+    var main: main { .init(bundle: bundle) }
+
+    func launchScreen(bundle: Foundation.Bundle) -> launchScreen {
+      .init(bundle: bundle)
+    }
+    func main(bundle: Foundation.Bundle) -> main {
+      .init(bundle: bundle)
+    }
+    func validate() throws {
+      try self.launchScreen.validate()
+      try self.main.validate()
     }
 
-    #if os(iOS) || os(tvOS)
-    struct launchScreen: Rswift.StoryboardResourceWithInitialControllerType, Rswift.Validatable {
+
+    /// Storyboard `LaunchScreen`.
+    struct launchScreen: RswiftResources.StoryboardReference, RswiftResources.InitialControllerContainer {
       typealias InitialController = UIKit.UIViewController
 
-      let bundle = R.hostingBundle
+      let bundle: Foundation.Bundle
+
       let name = "LaunchScreen"
+      func validate() throws {
 
-      static func validate() throws {
-        if #available(iOS 11.0, tvOS 11.0, *) {
-        }
       }
-
-      fileprivate init() {}
     }
-    #endif
 
-    #if os(iOS) || os(tvOS)
-    struct main: Rswift.StoryboardResourceType, Rswift.Validatable {
-      let assetDetailsViewController = StoryboardViewControllerResource<AssetDetailsViewController>(identifier: "AssetDetailsViewController")
-      let assetsViewController = StoryboardViewControllerResource<AssetsViewController>(identifier: "AssetsViewController")
-      let bundle = R.hostingBundle
+    /// Storyboard `Main`.
+    struct main: RswiftResources.StoryboardReference {
+      let bundle: Foundation.Bundle
+
       let name = "Main"
-      let settingsIconViewController = StoryboardViewControllerResource<SettingsIconViewController>(identifier: "SettingsIconViewController")
-      let settingsViewController = StoryboardViewControllerResource<SettingsViewController>(identifier: "SettingsViewController")
-      let watchlistViewController = StoryboardViewControllerResource<WatchlistViewController>(identifier: "WatchlistViewController")
 
-      func assetDetailsViewController(_: Void = ()) -> AssetDetailsViewController? {
-        return UIKit.UIStoryboard(resource: self).instantiateViewController(withResource: assetDetailsViewController)
+      var assetDetailsViewController: RswiftResources.StoryboardViewControllerIdentifier<AssetDetailsViewController> { .init(identifier: "AssetDetailsViewController", storyboard: name, bundle: bundle) }
+      var assetsViewController: RswiftResources.StoryboardViewControllerIdentifier<AssetsViewController> { .init(identifier: "AssetsViewController", storyboard: name, bundle: bundle) }
+      var settingsIconViewController: RswiftResources.StoryboardViewControllerIdentifier<SettingsIconViewController> { .init(identifier: "SettingsIconViewController", storyboard: name, bundle: bundle) }
+      var settingsViewController: RswiftResources.StoryboardViewControllerIdentifier<SettingsViewController> { .init(identifier: "SettingsViewController", storyboard: name, bundle: bundle) }
+      var watchlistViewController: RswiftResources.StoryboardViewControllerIdentifier<WatchlistViewController> { .init(identifier: "WatchlistViewController", storyboard: name, bundle: bundle) }
+
+      func validate() throws {
+        if UIKit.UIColor(named: "secondaryTextColor", in: bundle, compatibleWith: nil) == nil { throw RswiftResources.ValidationError("[R.swift] Color named 'secondaryTextColor' is used in storyboard 'Main', but couldn't be loaded.") }
+        if assetDetailsViewController() == nil { throw RswiftResources.ValidationError("[R.swift] ViewController with identifier 'assetDetailsViewController' could not be loaded from storyboard 'Main' as 'AssetDetailsViewController'.") }
+        if assetsViewController() == nil { throw RswiftResources.ValidationError("[R.swift] ViewController with identifier 'assetsViewController' could not be loaded from storyboard 'Main' as 'AssetsViewController'.") }
+        if settingsIconViewController() == nil { throw RswiftResources.ValidationError("[R.swift] ViewController with identifier 'settingsIconViewController' could not be loaded from storyboard 'Main' as 'SettingsIconViewController'.") }
+        if settingsViewController() == nil { throw RswiftResources.ValidationError("[R.swift] ViewController with identifier 'settingsViewController' could not be loaded from storyboard 'Main' as 'SettingsViewController'.") }
+        if watchlistViewController() == nil { throw RswiftResources.ValidationError("[R.swift] ViewController with identifier 'watchlistViewController' could not be loaded from storyboard 'Main' as 'WatchlistViewController'.") }
       }
-
-      func assetsViewController(_: Void = ()) -> AssetsViewController? {
-        return UIKit.UIStoryboard(resource: self).instantiateViewController(withResource: assetsViewController)
-      }
-
-      func settingsIconViewController(_: Void = ()) -> SettingsIconViewController? {
-        return UIKit.UIStoryboard(resource: self).instantiateViewController(withResource: settingsIconViewController)
-      }
-
-      func settingsViewController(_: Void = ()) -> SettingsViewController? {
-        return UIKit.UIStoryboard(resource: self).instantiateViewController(withResource: settingsViewController)
-      }
-
-      func watchlistViewController(_: Void = ()) -> WatchlistViewController? {
-        return UIKit.UIStoryboard(resource: self).instantiateViewController(withResource: watchlistViewController)
-      }
-
-      static func validate() throws {
-        if #available(iOS 11.0, tvOS 11.0, *) {
-          if UIKit.UIColor(named: "secondaryTextColor", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'secondaryTextColor' is used in storyboard 'Main', but couldn't be loaded.") }
-        }
-        if _R.storyboard.main().assetDetailsViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'assetDetailsViewController' could not be loaded from storyboard 'Main' as 'AssetDetailsViewController'.") }
-        if _R.storyboard.main().assetsViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'assetsViewController' could not be loaded from storyboard 'Main' as 'AssetsViewController'.") }
-        if _R.storyboard.main().settingsIconViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'settingsIconViewController' could not be loaded from storyboard 'Main' as 'SettingsIconViewController'.") }
-        if _R.storyboard.main().settingsViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'settingsViewController' could not be loaded from storyboard 'Main' as 'SettingsViewController'.") }
-        if _R.storyboard.main().watchlistViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'watchlistViewController' could not be loaded from storyboard 'Main' as 'WatchlistViewController'.") }
-      }
-
-      fileprivate init() {}
     }
-    #endif
-
-    fileprivate init() {}
   }
-  #endif
-
-  fileprivate init() {}
 }

@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import Charts
+import DGCharts
 
 final class AssetDetailsViewController: UIViewController, Storyboarded {
     @IBOutlet private weak var priceLabel: UILabel!

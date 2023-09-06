@@ -26,6 +26,11 @@
 
 import Foundation
 import CoreGraphics
+#if os(macOS)
+import AppKit
+#else
+import UIKit
+#endif
 
 public protocol KFOptionSetter {
     var options: KingfisherParsedOptionsInfo { get nonmutating set }
@@ -367,7 +372,7 @@ extension KFOptionSetter {
     /// This is the last chance you can modify the image download request. You can modify the request for some
     /// customizing purpose, such as adding auth token to the header, do basic HTTP auth or something like url mapping.
     ///
-    public func requestModifier(_ modifier: ImageDownloadRequestModifier) -> Self {
+    public func requestModifier(_ modifier: AsyncImageDownloadRequestModifier) -> Self {
         options.requestModifier = modifier
         return self
     }
@@ -442,8 +447,7 @@ extension KFOptionSetter {
     ///                         to form a processor pipeline.
     /// - Returns: A `Self` value with changes applied.
     ///
-    /// - Note:
-    /// To append processors to current ones instead of replacing them all, concatenate them by `|>`, then use
+    /// - Note: To append processors to current ones instead of replacing them all, concatenate them by `|>`, then use
     /// `appendProcessor(_:)`.
     public func setProcessors(_ processors: [ImageProcessor]) -> Self {
         switch processors.count {
