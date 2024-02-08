@@ -9,22 +9,7 @@ import Foundation
 
 final class NetworkAssetsService {
     private let session: URLSession
-    private let tasksSyncQueue = DispatchQueue(label: "com.gmail.forgot10soul.CoinCap.NetworkAssetsService.tasksSyncQueue")
-    private var _tasks = [URLSessionDataTask]()
-    private var tasks: [URLSessionDataTask] {
-        get {
-            var tmpTasks = [URLSessionDataTask]()
-            tasksSyncQueue.sync {
-                tmpTasks = _tasks
-            }
-            return tmpTasks
-        }
-        set {
-            tasksSyncQueue.sync(flags: .barrier) { [weak self] in
-                self?._tasks = newValue
-            }
-        }
-    }
+    private var tasks = [URLSessionDataTask]()
     
     // MARK: - Lifecycle
     init() {
